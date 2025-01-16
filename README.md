@@ -23,7 +23,8 @@ Axivity, Movisense devices and other brands.
 
 ## Live Demo
 
-<!-- [View the app on shinyapps.io](https://jhmigueles.shinyapps.io/stepcontest/) -->
+[View the app on
+shinyapps.io](https://jhmigueles.shinyapps.io/stepcontest/)
 
 ## How It Works
 

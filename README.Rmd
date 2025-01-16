@@ -27,7 +27,7 @@ The package `stepcontest` is a Shiny app proposing a simple contest on accumulat
 `stepcontest` uses GGIR and the verisense step count function in the background, meaning that it can read data from ActiGraph, GENEActiv, Axivity, Movisense devices and other brands.
 
 ## Live Demo
-<!-- [View the app on shinyapps.io](https://jhmigueles.shinyapps.io/stepcontest/) -->
+[View the app on shinyapps.io](https://jhmigueles.shinyapps.io/stepcontest/)
 
 ## How It Works
 - Upload accelerometer files.
