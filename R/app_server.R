@@ -14,7 +14,8 @@ app_server <- function(input, output, session) {
   require(ggplot2)
   require(plotly)
   require(dplyr)
-  data <- reactiveVal(NULL)
+  ds <- reactiveVal(NULL)
+  ps <- reactiveVal(NULL)
   
   # Create a dedicated directory for GGIR output
   ggir_temp_dir <- file.path(tempdir(), "GGIR_output")
@@ -90,26 +91,28 @@ app_server <- function(input, output, session) {
                                 cadence_MOD = 100, cadence_VIG = 140,
                                 cadence_bands = c(0, 100, 140, Inf),
                                 idloc = ".")
-      summary_file <- file.path(ggir_temp_dir, "output_stepcontest", "results", "personSummary.csv")
-      summary_data <- read.csv(summary_file)
+      summary_files <- list.files(file.path(ggir_temp_dir, "output_stepcontest", "results", "daySummary"), full.names = T)
+      summary_data <-  do.call(rbind, lapply(summary_files, read.csv))
       
       # Update the reactive value
-      data(summary_data)
+      ds(summary_data)
+      PS = aggregate(stepsperday ~ ID, FUN = sum, data = ds()[, c("ID", "stepsperday")])
+      ps(PS)
       
       # Complete progress bar
       incProgress(1, detail = "Hecho!")
     })
   })
   
-  output$summary_table <- renderTable({
-    req(data())
-    data()
-  })
+  # output$summary_table <- renderTable({
+  #   req(ds())
+  #   data()
+  # })
   
   output$bar_plot <- renderPlotly({
-    req(data())
+    req(ds())
     # Create the ggplot2 plot
-    p <- ggplot(data(), aes(x = ID, y = stepsperday_pla, fill = ID)) +
+    p <- ggplot(ds(), aes(x = weekday, y = stepsperday, fill = ID)) +
       geom_bar(stat = "identity", width = 0.6) + 
       coord_flip() +  
       labs(title = "Pasos Totales", x = "", y = "Pasos Totales") +
@@ -139,12 +142,12 @@ app_server <- function(input, output, session) {
   })
   
   output$cadence_plot <- renderPlotly({
-    req(data())
+    req(ds())
     
     # Create the ggplot2 plot
-    p <- ggplot(data(), aes(x = ID)) +
-      geom_bar(aes(y = CAD_band_100_139_spm_pla, fill = "Cadencia Moderada"), stat = "identity", width = 0.6) +
-      geom_bar(aes(y = CAD_band_140_Inf_spm_pla, fill = "Cadencia Alta"), stat = "identity", width = 0.6) +
+    p <- ggplot(ds(), aes(x = ID)) +
+      geom_bar(aes(x = weekday, y = CAD_band_100_139_spm, group = ID, fill = "Cadencia Moderada"), stat = "identity", width = 0.6) +
+      geom_bar(aes(x = weekday, y = CAD_band_140_Inf_spm, group = ID, fill = "Cadencia Alta"), stat = "identity", width = 0.6) +
       coord_flip() +
       labs(title = "Tiempo acumulado en cadencias", x = "", y = "Minutos") +
       scale_fill_manual(values = c("Cadencia Moderada" = "blue", "Cadencia Alta" = "red")) +
@@ -174,10 +177,10 @@ app_server <- function(input, output, session) {
   })
   
   output$leaderboard <- renderTable({
-    req(data())
-    leaderboard <- data() %>%
-      dplyr::arrange(dplyr::desc(stepsperday_pla)) %>%
-      dplyr::select(ID, stepsperday_pla)
+    req(ps())
+    leaderboard <- ps() %>%
+      dplyr::arrange(dplyr::desc(stepsperday)) %>%
+      dplyr::select(ID, stepsperday)
     colnames(leaderboard) = c("Equipo", "Pasos/día")
     leaderboard
   })

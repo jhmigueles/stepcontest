@@ -5,6 +5,6 @@ account: jhmigueles
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 13737223
-bundleId: 9658406
+bundleId: 9658433
 url: https://jhmigueles.shinyapps.io/stepcontest/
 version: 1

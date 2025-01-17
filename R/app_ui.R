@@ -30,6 +30,20 @@ app_ui <- function() {
                           shiny::tableOutput("leaderboard"))
         )
       )
+    ),
+    # Footer
+    tags$footer(
+      HTML('Developed by <a href="https://www.jhmigueles.com" target="_blank" style="color: blue; text-decoration: none;">jhmigueles</a>'),
+      align = "center",
+      style = "
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 50px;
+      color: white;
+      background-color: #95A5A6;
+      padding: 10px;
+      font-size: 12px;"
     )
   )
 }

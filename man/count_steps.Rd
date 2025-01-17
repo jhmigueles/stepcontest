@@ -2,7 +2,7 @@
 % Please edit documentation in R/verisense_step_count.R
 \name{count_steps}
 \alias{count_steps}
-\title{count_steps}
+\title{Step counter}
 \usage{
 count_steps(
   input_data = runif(500, min = -1.5, max = 1.5),
@@ -12,11 +12,11 @@ count_steps(
 \arguments{
 \item{input_data}{3-column matrix}
 
-\item{coeffs}{coefficients for algorithm}
+\item{coeffs}{Coefficients for algorithm}
 }
 \value{
-steps per epoch
+step counts
 }
 \description{
-count_steps
+Step counter
 }
