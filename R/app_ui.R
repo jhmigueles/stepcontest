@@ -6,6 +6,7 @@
 #' @import shiny
 #' @import plotly
 #' @import shinythemes
+#' @import DT
 app_ui <- function() {
   shiny::fluidPage(
     theme = shinythemes::shinytheme("flatly"),  # Example theme
@@ -20,20 +21,20 @@ app_ui <- function() {
       ),
       shiny::mainPanel(
         shiny::tabsetPanel(
-          # shiny::tabPanel("Summary", 
-          #                 shiny::tableOutput("summary_table")),
-          shiny::tabPanel("¿Qué equipo camina más?", 
+          shiny::tabPanel("Número de pasos", 
                           plotly::plotlyOutput("bar_plot")),
-          shiny::tabPanel("¿Qué equipo camina más rápido?", 
-                          plotly::plotlyOutput("cadence_plot")),
-          shiny::tabPanel("Clasificación", 
-                          shiny::tableOutput("leaderboard"))
+          shiny::tabPanel("Minutos en intensidad moderada", 
+                          plotly::plotlyOutput("Modcadence_plot")),
+          shiny::tabPanel("Minutos en intensidad vigorosa", 
+                          plotly::plotlyOutput("Vigcadence_plot")),
+          shiny::tabPanel("Clasificaciones",
+                          DT::DTOutput("ranks"))
         )
       )
     ),
     # Footer
     tags$footer(
-      HTML('Developed by <a href="https://www.jhmigueles.com" target="_blank" style="color: blue; text-decoration: none;">jhmigueles</a>'),
+      HTML('Developed by Jairo H. Migueles at <a href="https://www.jhmigueles.com" target="_blank" style="color: blue; text-decoration: none;">jhmigueles</a>'),
       align = "center",
       style = "
       position: absolute;

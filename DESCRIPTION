@@ -9,6 +9,7 @@ License: Apache License (>= 2)
 Imports: 
     config,
     dplyr,
+    DT,
     GGIR,
     ggplot2,
     plotly,
